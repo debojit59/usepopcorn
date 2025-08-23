@@ -1,17 +1,67 @@
-<<<<<<< HEAD
-# React + Vite
+# usePopcorn 🎬
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A minimal React app to search movies via the **OMDb API**, view details, **rate with a custom StarRating component**, and keep a **watched list** with quick stats.
 
-Currently, two official plugins are available:
+> Built with **Vite + React**, featuring proper effect cleanup, `AbortController` for in-flight request cancellation, keyboard shortcuts (Esc to close details), and a reusable `StarRating` component that supports a parent callback (`onSetRating`).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## Demo
+- **Live:** https://usepopcorn-umek.vercel.app/
+- **Repo:** https://github.com/debojit59/usepopcorn
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
-=======
-# usepopcorn
-React movie finder using OMDb API — search, view details, rate with custom stars, and keep a watched list.
->>>>>>> origin/main
+---
+
+## What I built (summary)
+
+- A **two-pane movie browser**:
+  - **Left**: search results from OMDb, click a movie to view details.
+  - **Right**: either a details pane **or** your **watched list** with aggregate stats.
+- A reusable **`<StarRating />`** input with hover preview and click-to-select, which reports the value back up via `onSetRating`.
+- Robust **async UX**:
+  - Won’t spam the API on short queries (`< 3` chars).
+  - **Cancels** in-flight fetches when you type fast.
+  - Shows **loader** and **error** states.
+- **Keyboard support** and polish:
+  - Press **Esc** to close the details view.
+  - Sets the page title to `Movie | <Title>` while viewing and **restores** the old title on exit.
+- A clean **watched list** with delete and **averages** (IMDb rating, user rating, runtime).
+
+---
+
+## Why this is interesting (what I practiced)
+
+- **React Hooks:** `useState`, `useEffect` (with cleanups), parent-child communication via props.
+- **State lifting & controlled inputs:** child `StarRating` pushes the chosen rating up, parent uses it to enable the “Add to list” button and store alongside IMDb data.
+- **Async fetch patterns:** guarded queries, `AbortController`, and error handling to avoid race conditions and unhandled rejections.
+- **Derived data:** averages calculated with a small helper (no double state).
+- **Small a11y & UX considerations:** keyboard escape, clickable list items, and defensive checks for missing data.
+- **Deployment flow:** GitHub → Vercel (Vite build), Node 18+ environment, case-sensitive import hygiene.
+
+---
+
+## Features
+
+- 🔎 **Movie search** (OMDb) with “min 3 chars” guard and request **cancellation** on fast typing.
+- 📄 **Details view**: runtime, IMDb rating, plot, cast, director.
+- ⭐ **Custom StarRating**: hover preview, click to rate; supports parent callback (`onSetRating`).
+- 🧾 **Watched list**: add/remove movies and see averages (IMDb, user rating, runtime).
+- ⌨️ **Keyboard**: press **Esc** to close the details panel.
+- 🧹 **Effect hygiene**: cleans up event listeners; restores `document.title` on unmount.
+
+---
+
+## Tech Stack
+
+- **React** (Hooks)
+- **Vite**
+- **PropTypes** (lightweight runtime validation)
+- **Vanilla CSS** (no UI framework)
+
+> Works best on **Node.js 18+** (matches Vercel).
+
+---
+
+## Project structure
+
+
